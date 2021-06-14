@@ -78,6 +78,7 @@ function guardar(){
 			data: formData,			
 			success: function(response) {			
 				$("#tabla").html(response);
+				limpiarFormularioCreacion();
 			}
 		});	
 	}
@@ -97,6 +98,7 @@ function editar(){
 			data: formData,			
 			success: function(response) {			
 				$("#tabla").html(response);
+				limpiarFormularioCreacion();
 			}
 		});	
 	}
@@ -120,13 +122,16 @@ function deshabilitar(){
 function limpiarFormulario(){  	
 	$("#textoBusqueda").val("");	
 	$('#tabla').find("tr:gt(0)").remove();
-	$("#nombre").val("");	
-	$('#activo1').prop('checked', false); 
-	$('#activo2').prop('checked', false); 
-	$('#rol').prop('selectedIndex',0);
+	limpiarFormularioCreacion();
 }
 
 
+
+/*
+ * Metodo encargado de validar campos del formulario de gestion de usuarios
+ * @param String nombre 
+ * @return 
+ */
 function validarCampos(nombre){ 	
 	var activo1 = !$('#activo1').prop('checked');
 	var activo2 = !$('#activo2').prop('checked');
@@ -139,6 +144,11 @@ function validarCampos(nombre){
 	 }
 }
 
+/*
+ * Metodo encargado de validar que el nombre del usuario a crea NO exista en base de datos
+ * @param String nombre 
+ * @return 
+ */
 function validarNombre(nombre){
 	let valido = true;
 	$.ajax({
@@ -155,6 +165,10 @@ function validarNombre(nombre){
 	return valido;
 }
 
+/*
+ * Metodo encargado de eleminar usuarios de la base de datos.
+ * @return 
+ */
 function borrar(){ 
 	var id = $("#id").val();	
 	$.ajax({
@@ -162,6 +176,19 @@ function borrar(){
 		url: "/usuario/delete/"+id,
 		success: function(response) {			
 			$("#tabla").html(response);
+			limpiarFormularioCreacion();
+			deshabilitar();
 		}
 	});	
+}
+
+/*
+ * Metodo encargado de realizar la limpieza del todo el formulario de Informacion del Usuarios
+ * @return 
+ */
+function limpiarFormularioCreacion(){
+	$("#nombre").val("");	
+	$('#activo1').prop('checked', false); 
+	$('#activo2').prop('checked', false); 
+	$('#rol').prop('selectedIndex',0);	
 }
