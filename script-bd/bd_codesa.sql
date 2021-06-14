@@ -1,0 +1,27 @@
+/*
+ * Script de creacion de base datos, tablas e insert
+ * en la tabla rol * 
+ */
+
+CREATE DATABASE codesa;
+
+USE codesa;
+
+CREATE TABLE IF NOT EXISTS ROL (
+    ID_ROL int(11) NOT NULL AUTO_INCREMENT,
+    NOMBRE varchar(50),
+    PRIMARY KEY (ID_ROL)
+);
+
+INSERT INTO codesa.rol (ID_ROL, NOMBRE) VALUES (1, 'ADMINISTRADOR');
+INSERT INTO codesa.rol (ID_ROL, NOMBRE) VALUES (2, 'AUDITOR');
+INSERT INTO codesa.rol (ID_ROL, NOMBRE) VALUES (3, 'AUXILIAR');
+
+CREATE TABLE IF NOT EXISTS USUARIO (
+    ID_USUARIO int(11) NOT NULL AUTO_INCREMENT,
+	ID_ROL int(11) NOT NULL ,
+    NOMBRE varchar(50) NOT NULL,
+	ACTIVO char NOT NULL,
+    PRIMARY KEY (ID_USUARIO),
+	FOREIGN KEY (FK_ID_ROL) REFERENCES ROL(ID_ROL)
+);

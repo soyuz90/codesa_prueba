@@ -1,0 +1,20 @@
+/*
+ * Archivo Css del formulario de gestion de usuarios
+ *  
+ */
+.contenedor {
+	width: 80%;
+	margin-left: 10%;
+}
+
+
+.personalizado {  
+  background-color: lightblue;
+  width: 60%;
+  margin-left: 20%;
+  background-color: #eee;
+  border-radius:4px;
+  padding-top: 10px; 
+  padding-bottom:20px;
+}
+
