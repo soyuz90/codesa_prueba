@@ -5,16 +5,20 @@
  
 $(document).ready(function() {   
     deshabilitar();  
-   
 });
 
 
+/*
+ * Metodo encargado invocar el metodo de busqueda de usuarios
+ * @param String nombre
+ * @return html
+ */
 function filtrar(){
-	var textoBusqueda = $("#textoBusqueda").val();
+	var nombre = $("#textoBusqueda").val();
 	$.ajax({
 		type: "POST",
 		url: "/usuario/buscar/",
-		data: {"textoBusqueda":textoBusqueda},
+		data: {"nombre":nombre},
 		success: function(response) {			
 			$("#tabla").html( response );
 			$("#save").attr("disabled",true);
@@ -22,7 +26,11 @@ function filtrar(){
 	});	
 }
 
-
+/*
+ * Metodo encargado invocar el metodo para la presentacion del fomulario de creacion / edicion
+ * de usuarios * 
+ * @return html
+ */
 function crear(){ 
 	$.ajax({
 		type: "GET",
@@ -35,6 +43,12 @@ function crear(){
 	});	
 }
 
+/*
+ * Metodo encargado obtener los datos del usuario sobre el que se realiza
+ * click en la tabla de usuarios.
+ * @param String nombre 
+ * @return html
+ */
 $( "body" ).on( "click", "table tr ", function() {
 var row = this;
 var id = this.cells[0].firstChild.data;
@@ -50,20 +64,60 @@ var id = this.cells[0].firstChild.data;
 
 });
 
-function enviar(){  	
-	$('#formCrear').submit();
+/*
+ * Metodo encargado de crear nuevos usuarios 
+ * @return html
+ */
+function guardar(){
+	var nombre = $("#nombre").val();
+	if(validarCampos(nombre) && validarNombre(nombre)){		
+		var formData = $("#formCrear").serialize();
+		$.ajax({
+			type: "POST",
+			url: "/usuario/save",
+			data: formData,			
+			success: function(response) {			
+				$("#tabla").html(response);
+			}
+		});	
+	}
 }
 
+/*
+ * Metodo encargado de invovar el metodo de editar  usuarios
+ * @return html
+ */
+function editar(){
+	var nombre = $("#nombre").val();
+	if(validarCampos(nombre) ){		
+		var formData = $("#formCrear").serialize();
+		$.ajax({
+			type: "POST",
+			url: "/usuario/save",
+			data: formData,			
+			success: function(response) {			
+				$("#tabla").html(response);
+			}
+		});	
+	}
+}
 
-
+/*
+ * Metodo encargado de deshabilitar, los botones del formulario 
+ * de Informacion del Usuario
+ * @return html
+ */
 function deshabilitar(){  	 
 	$("#save").attr("disabled",true);
 	$("#edit").attr("disabled",true);
 	$("#eliminar").attr("disabled",true);
 }
 
-
-function borrar(){  	
+/*
+ * Metodo encargado de realizar la limpieza del todo el formulario de gestion de usuarios
+ * @return 
+ */
+function limpiarFormulario(){  	
 	$("#textoBusqueda").val("");	
 	$('#tabla').find("tr:gt(0)").remove();
 	$("#nombre").val("");	
@@ -73,20 +127,20 @@ function borrar(){
 }
 
 
-
-
-function validar(){ 
-	var nombre = $("#nombre").val()
+function validarCampos(nombre){ 	
 	var activo1 = !$('#activo1').prop('checked');
 	var activo2 = !$('#activo2').prop('checked');
-	
 	
 	 if(nombre == "" || (activo1 && activo2)){		 
 		 $("#mensaje").html("<div class='alert alert-warning' id='mensaje'>Nombre y/o Activo son Requeridos</div>");
 		 return false;
+	 }else{
+		 return true;
 	 }
-	
-	
+}
+
+function validarNombre(nombre){
+	let valido = true;
 	$.ajax({
 		type: "GET",
 		url: "/usuario/validar/"+nombre,		
@@ -94,20 +148,20 @@ function validar(){
 			if(response=="fail"){				
 				$("#mensaje").html("<div class='alert alert-danger' id='mensaje'>Ya existe un usuario con ese" +
 						           " nombre, por favor ingrese uno distinto.</div>");
-			}else{
-				enviar();
-			}	
+				return false;
+			}
 		}
 	});	
+	return valido;
 }
 
-function eliminar(){ 
+function borrar(){ 
 	var id = $("#id").val();	
 	$.ajax({
 		type: "GET",
 		url: "/usuario/delete/"+id,
 		success: function(response) {			
-			
+			$("#tabla").html(response);
 		}
 	});	
 }

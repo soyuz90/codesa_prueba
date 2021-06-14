@@ -11,7 +11,7 @@
 				<div class="form-group">				  
 				  <div class="col-md-8">
 				    <input class="btn btn-info" type="button" value="Buscar" id="buscar" onclick="filtrar()"> 
-					<input class="btn btn-info" type="button" value="limpiar" id="limpiar" onclick="borrar()" >
+					<input class="btn btn-info" type="button" value="limpiar" id="limpiar" onclick="limpiarFormulario()" >
 				  </div>
 				</div>
 				<hr>
@@ -57,9 +57,9 @@
 			<form th:action="@{/usuario/save}"  th:object="${usuario}" method="post" id="formCrear">
 				<div class="form-group">	
 					<div class="col-md-8" style="padding-left: 50px;">			
-						<input class="btn btn-info" type="button" value="Guardar" id="save" onclick="validar()">
-						<input class="btn btn-info" type="button" value="Editar" id="edit" onclick="enviar()">
-						<input class="btn btn-info" type="button" value="Eliminar" id="eliminar" onclick="eliminar()">
+						<input class="btn btn-info" type="button" value="Guardar" id="save" onclick="guardar()">
+						<input class="btn btn-info" type="button" value="Editar" id="edit" onclick="editar()">
+						<input class="btn btn-info" type="button" value="Eliminar" id="eliminar" onclick="borrar()">
 					</div>	
 				</div>	
 			<hr> 

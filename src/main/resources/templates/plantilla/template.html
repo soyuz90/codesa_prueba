@@ -14,13 +14,9 @@
 	</header>
 	
 	
-	<div th:fragment="tabla-usuario" id="tabla">
-		<div >
-			<a class="btn btn-primary" href=""  id="crear" onclick="crear()"
-							th:text="'Crear'" title="Crear Usuario">
-			</a>
-		</div>
-		<table class="table table-striped table-bordered table-hover"> 
+	<hr>
+  	<div th:fragment="tabla-usuarios" id="tabla" class="card-body table-responsive p-0" style="height: 200px;" >
+		<table class="table table-striped table-hover "> 
 		  <tr>	
 		    <th>Id</th>
 		    <th>Nombre</th>
@@ -34,8 +30,7 @@
 		    <td th:text="${usuario.activo}"></td>
 		  </tr>
 		</table>	
-	</div>
-	
+	</div>	
 	<div th:fragment="info-usuario" >
 		<form th:action="@{/usuario/save}"  th:object="${usuario}" method="post" id="formCrear">
 			<div class="card-header">					
